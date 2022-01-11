@@ -170,7 +170,7 @@ func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int
 		if !lookForTask.Success {
 			// try to create again
 			c.Logger.Debugf("call CreateBlockImage again with counter %d", counter)
-			status, err = c.CreateBlockImage(rbdCreate, counter)
+			return c.CreateBlockImage(rbdCreate, counter)
 		} else {
 			status = http.StatusCreated
 		}
@@ -236,7 +236,7 @@ func (c *Client) DeleteBlockImage(poolName string, nameSpace *string, imageName 
 		if !lookForTask.Success {
 			// try delete again...
 			c.Logger.Debugf("calling DeleteBlockImage with counter %d", counter)
-			status, err = c.DeleteBlockImage(poolName, nameSpace, imageName, counter)
+			return c.DeleteBlockImage(poolName, nameSpace, imageName, counter)
 		} else {
 			status = http.StatusNoContent
 			err = nil
