@@ -8,7 +8,7 @@ import (
 
 func TestNewSession(t *testing.T) {
 	server := ceph.Server{
-		Address:            "10.10.2.23",
+		Address:            "192.168.21.31",
 		Port:               8443,
 		Protocol:           "https",
 		APIPath:            "api",

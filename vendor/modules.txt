@@ -1,0 +1,11 @@
+# github.com/go-resty/resty/v2 v2.7.0
+## explicit
+github.com/go-resty/resty/v2
+# github.com/rs/zerolog v1.26.1
+## explicit
+github.com/rs/zerolog
+github.com/rs/zerolog/internal/cbor
+github.com/rs/zerolog/internal/json
+github.com/rs/zerolog/log
+# golang.org/x/net v0.0.0-20211029224645-99673261e6eb
+golang.org/x/net/publicsuffix

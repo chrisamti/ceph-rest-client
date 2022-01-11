@@ -1,12 +1,22 @@
 package ceph
 
+import "errors"
+
 type Client struct {
-	Session *Session
+	Session       *Session
+	MaxIterations uint
+	Logger        *Adapter
 }
+
+var ErrMaxIterationsExceeded = errors.New("max recursive iterations exceeded")
 
 func New(server Server) (client *Client, err error) {
 
-	client = &Client{}
+	client = &Client{MaxIterations: 30}
+	if client.Logger == nil {
+		client.Logger = NewLogger()
+	}
+
 	client.Session, err = NewSession(server)
 
 	if err != nil {

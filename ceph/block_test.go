@@ -1,6 +1,7 @@
 package ceph_test
 
 import (
+	"fmt"
 	"github.com/chrisamti/ceph-rest-client/ceph"
 	"net/http"
 	"testing"
@@ -9,11 +10,12 @@ import (
 var (
 	username = "test-user"
 	password = "XJEGy5yWrYxu758"
+	server   = "192.168.21.31"
 )
 
 func getServer() ceph.Server {
 	return ceph.Server{
-		Address:            "10.10.2.23",
+		Address:            server,
 		Port:               8443,
 		Protocol:           "https",
 		APIPath:            "api",
@@ -39,9 +41,9 @@ func TestClient_CreateBlockImage(t *testing.T) {
 
 	rbd := ceph.RBDCreate{
 		Features:      nil,
-		PoolName:      "k14-pool01",
+		PoolName:      "test-pool-1",
 		Namespace:     nil,
-		Name:          "rest-client-test-1",
+		Name:          "rest-client-one-img-1",
 		Size:          1073741824,
 		ObjSize:       0,
 		StripeUnit:    nil,
@@ -50,7 +52,7 @@ func TestClient_CreateBlockImage(t *testing.T) {
 		Configuration: struct{}{},
 	}
 
-	status, err = client.CreateBlockImage(rbd)
+	status, err = client.CreateBlockImage(rbd, 0)
 
 	if err != nil {
 		t.Error(err)
@@ -78,7 +80,11 @@ func TestClient_DeleteBlockImage(t *testing.T) {
 		t.Fatalf("could not login - expected http state 201 - got %d", status)
 	}
 
-	status, err = client.DeleteBlockImage("k14-pool01/rest-client-test-1")
+	status, err = client.DeleteBlockImage("test-pool-1", nil, "rest-client-one-img-1", 0)
+
+	if err != nil {
+		t.Error(err)
+	}
 
 	if status != http.StatusNoContent {
 		t.Errorf("expected http state 204 - got %d", status)
@@ -103,7 +109,29 @@ func TestClient_ListBlockImage(t *testing.T) {
 		t.Fatalf("could not login - expected http state 201 - got %d", statusLogin)
 	}
 
-	status, block, errBlock := client.ListBlockImage("k14-csi-0")
+	// create some block devices
+	for i := 0; i < 10; i++ {
+		_, err := func(i int) (int, error) {
+			rbd := ceph.RBDCreate{
+				Features:      nil,
+				PoolName:      "test-pool-1",
+				Namespace:     nil,
+				Name:          fmt.Sprintf("rest-client-test-%d", i),
+				Size:          1073741824,
+				ObjSize:       0,
+				StripeUnit:    nil,
+				StripeCount:   nil,
+				DataPool:      nil,
+				Configuration: struct{}{},
+			}
+			return client.CreateBlockImage(rbd, 0)
+		}(i)
+		if err != nil {
+			t.Error(err)
+		}
+	}
+
+	status, block, errBlock := client.ListBlockImage("test-pool-1")
 
 	if errBlock != nil {
 		t.Error(errBlock)
@@ -146,34 +174,47 @@ func TestClient_ListBlockImage(t *testing.T) {
 			t.Logf("\tID: %s\tname: %s", b.ID, b.Name)
 		}
 	}
+
+	// clean --> delete created image
+	for j := 0; j < 10; j++ {
+		_, err := func(i int) (int, error) {
+			var imageName = fmt.Sprintf("rest-client-test-%d", i)
+			return client.DeleteBlockImage("test-pool-1", nil, imageName, 0)
+		}(j)
+
+		if err != nil {
+			t.Error(err)
+		}
+	}
+
 }
 
-func TestClient_GetBlockImage(t *testing.T) {
-	client, err := ceph.New(getServer())
-
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	statusLogin, errLogin := client.Session.Login(username, password)
-	if errLogin != nil {
-		t.Error(errLogin)
-	}
-
-	if statusLogin != http.StatusCreated {
-		t.Fatalf("could not login - expected http state 201 - got %d", statusLogin)
-	}
-
-	status, rbd, errRbd := client.GetBlockImage("k14-pool01/vm-101071-disk-0")
-
-	if errRbd != nil {
-		t.Error(errRbd)
-	}
-
-	if status != http.StatusOK {
-		t.Errorf("expected http state 200 - got %d", status)
-	}
-
-	t.Logf("ID: %s", rbd.ID)
-
-}
+//func TestClient_GetBlockImage(t *testing.T) {
+//	client, err := ceph.New(getServer())
+//
+//	if err != nil {
+//		t.Fatal(err)
+//	}
+//
+//	statusLogin, errLogin := client.Session.Login(username, password)
+//	if errLogin != nil {
+//		t.Error(errLogin)
+//	}
+//
+//	if statusLogin != http.StatusCreated {
+//		t.Fatalf("could not login - expected http state 201 - got %d", statusLogin)
+//	}
+//
+//	status, rbd, errRbd := client.GetBlockImage("k14-pool01/vm-101071-disk-0")
+//
+//	if errRbd != nil {
+//		t.Error(errRbd)
+//	}
+//
+//	if status != http.StatusOK {
+//		t.Errorf("expected http state 200 - got %d", status)
+//	}
+//
+//	t.Logf("ID: %s", rbd.ID)
+//
+//}

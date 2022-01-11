@@ -1,0 +1,166 @@
+{
+  "health_status": "HEALTH_WARN",
+  "mgr_id": "idea",
+  "mgr_host": "https://192.168.21.31:8443/",
+  "have_mon_connection": true,
+  "executing_tasks": [],
+  "finished_tasks": [
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-0"
+      },
+      "begin_time": "2022-01-11T14:18:22.368385Z",
+      "end_time": "2022-01-11T14:18:24.908766Z",
+      "duration": 2.5403804779052734,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 16] RBD image is busy (error removing image)",
+        "code": "16",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/delete",
+          "metadata": {
+            "image_spec": "test-pool-1/rest-client-test-0"
+          }
+        }
+      }
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-9"
+      },
+      "begin_time": "2022-01-11T14:14:03.761128Z",
+      "end_time": "2022-01-11T14:14:14.103026Z",
+      "duration": 10.341898202896118,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-8"
+      },
+      "begin_time": "2022-01-11T14:13:59.691562Z",
+      "end_time": "2022-01-11T14:14:03.487767Z",
+      "duration": 3.796204090118408,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 16] RBD image is busy (error removing image)",
+        "code": "16",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/delete",
+          "metadata": {
+            "image_spec": "test-pool-1/rest-client-test-8"
+          }
+        }
+      }
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-7"
+      },
+      "begin_time": "2022-01-11T14:13:49.526681Z",
+      "end_time": "2022-01-11T14:13:58.715733Z",
+      "duration": 9.189051389694214,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-6"
+      },
+      "begin_time": "2022-01-11T14:13:39.348433Z",
+      "end_time": "2022-01-11T14:13:48.835386Z",
+      "duration": 9.486953020095825,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-5"
+      },
+      "begin_time": "2022-01-11T14:13:30.211193Z",
+      "end_time": "2022-01-11T14:13:39.294511Z",
+      "duration": 9.083317756652832,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-4"
+      },
+      "begin_time": "2022-01-11T14:13:20.038813Z",
+      "end_time": "2022-01-11T14:13:29.846244Z",
+      "duration": 9.807430744171143,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-3"
+      },
+      "begin_time": "2022-01-11T14:13:09.865499Z",
+      "end_time": "2022-01-11T14:13:19.537327Z",
+      "duration": 9.6718270778656,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-2"
+      },
+      "begin_time": "2022-01-11T14:12:59.690940Z",
+      "end_time": "2022-01-11T14:13:09.450396Z",
+      "duration": 9.759455680847168,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-1"
+      },
+      "begin_time": "2022-01-11T14:12:50.532156Z",
+      "end_time": "2022-01-11T14:12:59.478936Z",
+      "duration": 8.94677996635437,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    }
+  ],
+  "version": "ceph version 16.2.7 (f9aa029788115b5df5eeee328f584156565ee5b7) pacific (stable)",
+  "rbd_mirroring": {
+    "warnings": 0,
+    "errors": 0
+  }
+}

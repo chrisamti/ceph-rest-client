@@ -1,0 +1,273 @@
+{
+  "executing_tasks": [
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-test-3"
+      },
+      "begin_time": "2022-01-11T12:26:43.824191Z",
+      "progress": 0
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-one-img-1"
+      },
+      "begin_time": "2022-01-11T12:26:39.486774Z",
+      "progress": 0
+    }
+  ],
+  "finished_tasks": [
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-test-2"
+      },
+      "begin_time": "2022-01-11T12:26:43.811248Z",
+      "end_time": "2022-01-11T12:26:43.813500Z",
+      "duration": 0.002252340316772461,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 17] RBD image already exists (error creating image)",
+        "code": "17",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/create",
+          "metadata": {
+            "pool_name": "test-pool-1",
+            "namespace": null,
+            "image_name": "rest-client-test-2"
+          }
+        }
+      }
+    },
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-test-1"
+      },
+      "begin_time": "2022-01-11T12:26:43.793906Z",
+      "end_time": "2022-01-11T12:26:43.798947Z",
+      "duration": 0.005040407180786133,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 17] RBD image already exists (error creating image)",
+        "code": "17",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/create",
+          "metadata": {
+            "pool_name": "test-pool-1",
+            "namespace": null,
+            "image_name": "rest-client-test-1"
+          }
+        }
+      }
+    },
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-test-0"
+      },
+      "begin_time": "2022-01-11T12:26:42.580499Z",
+      "end_time": "2022-01-11T12:26:43.777419Z",
+      "duration": 1.1969196796417236,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-one-img-1"
+      },
+      "begin_time": "2022-01-11T12:26:36.996049Z",
+      "end_time": "2022-01-11T12:26:38.369234Z",
+      "duration": 1.3731846809387207,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-9"
+      },
+      "begin_time": "2022-01-11T12:25:54.945610Z",
+      "end_time": "2022-01-11T12:26:07.729957Z",
+      "duration": 12.78434705734253,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-7"
+      },
+      "begin_time": "2022-01-11T12:25:50.924860Z",
+      "end_time": "2022-01-11T12:26:04.216425Z",
+      "duration": 13.291565418243408,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-6"
+      },
+      "begin_time": "2022-01-11T12:25:48.914119Z",
+      "end_time": "2022-01-11T12:25:59.430068Z",
+      "duration": 10.515949726104736,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-5"
+      },
+      "begin_time": "2022-01-11T12:25:46.899742Z",
+      "end_time": "2022-01-11T12:25:59.420202Z",
+      "duration": 12.520459651947021,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-4"
+      },
+      "begin_time": "2022-01-11T12:25:44.888246Z",
+      "end_time": "2022-01-11T12:25:56.836056Z",
+      "duration": 11.947810888290405,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-8"
+      },
+      "begin_time": "2022-01-11T12:25:52.936055Z",
+      "end_time": "2022-01-11T12:25:56.413473Z",
+      "duration": 3.4774186611175537,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 16] RBD image is busy (error removing image)",
+        "code": "16",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/delete",
+          "metadata": {
+            "image_spec": "test-pool-1/rest-client-test-8"
+          }
+        }
+      }
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-3"
+      },
+      "begin_time": "2022-01-11T12:25:42.866924Z",
+      "end_time": "2022-01-11T12:25:55.879988Z",
+      "duration": 13.01306414604187,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-0"
+      },
+      "begin_time": "2022-01-11T12:25:36.829955Z",
+      "end_time": "2022-01-11T12:25:48.954640Z",
+      "duration": 12.124684572219849,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-2"
+      },
+      "begin_time": "2022-01-11T12:25:40.854781Z",
+      "end_time": "2022-01-11T12:25:45.205073Z",
+      "duration": 4.350292682647705,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 16] RBD image is busy (error removing image)",
+        "code": "16",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/delete",
+          "metadata": {
+            "image_spec": "test-pool-1/rest-client-test-2"
+          }
+        }
+      }
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-test-1"
+      },
+      "begin_time": "2022-01-11T12:25:38.840923Z",
+      "end_time": "2022-01-11T12:25:42.142478Z",
+      "duration": 3.3015549182891846,
+      "progress": 0,
+      "success": false,
+      "ret_value": null,
+      "exception": {
+        "detail": "[errno 16] RBD image is busy (error removing image)",
+        "code": "16",
+        "component": "rbd",
+        "status": 400,
+        "task": {
+          "name": "rbd/delete",
+          "metadata": {
+            "image_spec": "test-pool-1/rest-client-test-1"
+          }
+        }
+      }
+    }
+  ]
+}

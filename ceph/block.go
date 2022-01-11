@@ -3,6 +3,7 @@ package ceph
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"net/url"
 	"time"
 
@@ -10,6 +11,10 @@ import (
 )
 
 var ErrImageSpecIsEmpty = errors.New("param imageSpec can not be empty")
+
+var ErrPoolNameIsEmpty = errors.New("param poolName can not be empty")
+
+var ErrImageNameIsEmpty = errors.New("param imageName can not be empty")
 
 // RBD implements struct returned from https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image-image_spec.
 type RBD struct {
@@ -51,7 +56,7 @@ type RBDList []struct {
 type RBDCreate struct {
 	Features      []string    `json:"features"`
 	PoolName      string      `json:"pool_name"`
-	Namespace     interface{} `json:"namespace"`
+	Namespace     *string     `json:"namespace"`
 	Name          string      `json:"name"`
 	Size          int         `json:"size"`
 	ObjSize       int         `json:"obj_size"`
@@ -65,14 +70,16 @@ type RBDCreate struct {
 func (c *Client) ListBlockImage(poolName string) (status int, rbdList RBDList, err error) {
 	var resp *resty.Response
 
+	client := *c.Session.Client
+
 	if poolName != "" {
-		resp, err = c.Session.Client.R().
+		resp, err = client.R().
 			SetHeaders(defaultHeaderJson).
 			SetQueryParam("pool_name", poolName).
 			SetResult(&rbdList).
 			Get(c.Session.Server.getURL("block/image"))
 	} else {
-		resp, err = c.Session.Client.R().
+		resp, err = client.R().
 			SetHeaders(defaultHeaderJson).
 			SetResult(&rbdList).
 			Get(c.Session.Server.getURL("block/image"))
@@ -95,7 +102,10 @@ func (c *Client) GetBlockImage(imageSpec string) (status int, rbd RBD, err error
 		return 0, rbd, ErrImageSpecIsEmpty
 	}
 
-	resp, err = c.Session.Client.R().
+	client := *c.Session.Client
+
+	resp, err = client.
+		R().
 		SetHeaders(defaultHeaderJson).
 		SetResult(&rbd).
 		Get(c.Session.Server.getURL(fmt.Sprintf("block/image/%s", url.QueryEscape(imageSpec))))
@@ -108,37 +118,142 @@ func (c *Client) GetBlockImage(imageSpec string) (status int, rbd RBD, err error
 }
 
 // CreateBlockImage creates an RBD image (https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-block-image)
-func (c *Client) CreateBlockImage(rbdCreate RBDCreate) (status int, err error) {
+func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int, err error) {
+
+	if counter > c.MaxIterations {
+		return 0, ErrMaxIterationsExceeded
+	}
+
+	counter++
+
 	var resp *resty.Response
 
-	resp, err = c.Session.Client.R().
+	client := *c.Session.Client
+
+	resp, err = client.
+		SetRetryCount(10).
+		SetRetryWaitTime(10 * time.Second).
+		AddRetryCondition(c.retryConditionCheckForAccepted).
+		R().
 		SetHeaders(defaultHeaderJson).
 		SetBody(rbdCreate).
 		Post(c.Session.Server.getURL("block/image"))
+
+	if err != nil {
+		return 0, err
+	}
 
 	if !resp.IsSuccess() {
 		return resp.StatusCode(), fmt.Errorf("could not create image: %v on pool %v: %v ", rbdCreate.Name, rbdCreate.PoolName, resp.Error())
 	}
 
-	return resp.StatusCode(), nil
+	status = resp.StatusCode()
+
+	// check task state
+	switch status {
+	case http.StatusCreated, http.StatusAccepted, http.StatusBadRequest:
+		lookForTask := Task{
+			Name: "rbd/create",
+			MetaData: MetaData{
+				PoolName:  rbdCreate.PoolName,
+				Namespace: rbdCreate.Namespace,
+				ImageName: rbdCreate.Name,
+				ImageSpec: "", // ImageSpec is always empty for rbd/create
+			},
+		}
+
+		lookForTask, err = c.WaitForTaskIsDone(lookForTask)
+		if err != nil {
+			return 0, err
+		}
+
+		if !lookForTask.Success {
+			// try to create again
+			c.Logger.Debugf("call CreateBlockImage again with counter %d", counter)
+			status, err = c.CreateBlockImage(rbdCreate, counter)
+		} else {
+			status = http.StatusCreated
+		}
+	}
+
+	return status, nil
 }
 
 // DeleteBlockImage deletes an RBD image defined with imageSpec
 // (https://docs.ceph.com/en/latest/mgr/ceph_api/#delete--api-block-image-image_spec)
-func (c *Client) DeleteBlockImage(imageSpec string) (status int, err error) {
-	var resp *resty.Response
+func (c *Client) DeleteBlockImage(poolName string, nameSpace *string, imageName string, counter uint) (status int, err error) {
 
-	if imageSpec == "" {
-		return 0, ErrImageSpecIsEmpty
+	if counter > c.MaxIterations {
+		return 0, ErrMaxIterationsExceeded
 	}
 
-	resp, err = c.Session.Client.R().
+	counter++
+
+	var resp *resty.Response
+	var imageSpec string
+
+	if poolName == "" {
+		return 0, ErrPoolNameIsEmpty
+	}
+
+	if imageName == "" {
+		return 0, ErrImageNameIsEmpty
+	}
+
+	imageSpec = PathJoin(poolName, nameSpace, imageName)
+
+	client := *c.Session.Client
+
+	resp, err = client.
+		SetRetryCount(10).
+		SetRetryWaitTime(10 * time.Second).
+		AddRetryCondition(c.retryConditionCheckForAccepted).
+		R().
 		SetHeaders(defaultHeaderJson).
-		Delete(c.Session.Server.getURL(fmt.Sprintf("block/image/%s", url.QueryEscape(imageSpec))))
+		Delete(c.Session.Server.getURL(fmt.Sprintf("block/image/%s", url.PathEscape(imageSpec))))
 
 	if !resp.IsSuccess() {
 		return resp.StatusCode(), fmt.Errorf("%v", resp.RawResponse)
 	}
 
-	return resp.StatusCode(), err
+	status = resp.StatusCode()
+
+	switch status {
+	case http.StatusAccepted, http.StatusNoContent, http.StatusBadRequest:
+		lookForTask := Task{
+			Name: "rbd/delete",
+			MetaData: MetaData{
+				ImageSpec: imageSpec, // only ImageSpec is needed on delete
+			},
+		}
+
+		lookForTask, err = c.WaitForTaskIsDone(lookForTask)
+
+		if err != nil {
+			return 0, err
+		}
+
+		if !lookForTask.Success {
+			// try delete again...
+			c.Logger.Debugf("calling DeleteBlockImage with counter %d", counter)
+			status, err = c.DeleteBlockImage(poolName, nameSpace, imageName, counter)
+		} else {
+			status = http.StatusNoContent
+			err = nil
+		}
+	}
+
+	return status, err
+}
+
+func (c *Client) retryConditionCheckForAccepted(r *resty.Response, _ error) bool {
+	switch r.StatusCode() {
+	case http.StatusOK, http.StatusNoContent, http.StatusBadRequest, http.StatusNotFound, http.StatusCreated, http.StatusAccepted:
+		// no retry needed
+		c.Logger.Debugf("http status: %d --> no retry for %s", r.StatusCode(), r.Request.URL)
+		return false
+	}
+
+	c.Logger.Debugf("http status: %d --> retry for %s needed", r.StatusCode(), r.Request.URL)
+	return true // retry on all other status codes.
 }
