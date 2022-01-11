@@ -248,7 +248,7 @@ func (c *Client) DeleteBlockImage(poolName string, nameSpace *string, imageName 
 
 func (c *Client) retryConditionCheckForAccepted(r *resty.Response, _ error) bool {
 	switch r.StatusCode() {
-	case http.StatusOK, http.StatusNoContent, http.StatusBadRequest, http.StatusNotFound, http.StatusCreated, http.StatusAccepted:
+	case http.StatusOK, http.StatusNoContent, http.StatusNotFound, http.StatusCreated, http.StatusAccepted:
 		// no retry needed
 		c.Logger.Debugf("http status: %d --> no retry for %s", r.StatusCode(), r.Request.URL)
 		return false
