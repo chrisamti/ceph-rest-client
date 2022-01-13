@@ -74,14 +74,19 @@ type Session struct {
 	Auth   Auth
 }
 
+const (
+	cephMimeType = "application/vnd.ceph.api.v1.0+json"
+	jsonMimeType = "application/json"
+)
+
 var (
 	defaultHeaders = map[string]string{
-		"Accept": "application/vnd.ceph.api.v1.0+json",
+		"Accept": cephMimeType,
 	}
 
 	defaultHeaderJson = map[string]string{
-		"Accept":       "application/vnd.ceph.api.v1.0+json",
-		"Content-type": "application/json",
+		"Accept":       cephMimeType,
+		"Content-type": jsonMimeType,
 	}
 )
 

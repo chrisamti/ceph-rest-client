@@ -10,13 +10,23 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
+// ErrImageSpecIsEmpty is returned if param imageSpec is empty.
 var ErrImageSpecIsEmpty = errors.New("param imageSpec can not be empty")
 
+// ErrPoolNameIsEmpty is returned if param poolName is empty.
 var ErrPoolNameIsEmpty = errors.New("param poolName can not be empty")
 
+// ErrImageNameIsEmpty is returned if param imageName is empty.
 var ErrImageNameIsEmpty = errors.New("param imageName can not be empty")
 
-// RBD implements struct returned from https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image-image_spec.
+// ErrCreateImageAlreadyExists is return if image to be created already exists.
+var ErrCreateImageAlreadyExists = errors.New("RBD image already exists (error creating image)")
+
+// ErrEditImageAlreadyExists is return if image to be renamed already exists.
+var ErrEditImageAlreadyExists = errors.New("RBD image already exists (error renaming image)")
+
+// RBD implements struct returned from GET /api/block/image/{image_spec}
+// --> https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image-image_spec.
 type RBD struct {
 	Size            int64         `json:"size"`
 	ObjSize         int           `json:"obj_size"`
@@ -46,13 +56,16 @@ type RBD struct {
 	} `json:"configuration"`
 }
 
-// RBDList implements struct returned from https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image.
+// RBDList implements struct received from GET /api/block/image.
+// --> https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image.
 type RBDList []struct {
 	Status   int    `json:"status"`
 	Value    []RBD  `json:"value"`
 	PoolName string `json:"pool_name"`
 }
 
+// RBDCreate implements struct send to ceph for rbd image creation on POST /api/block/image.
+// --> https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-block-image
 type RBDCreate struct {
 	Features      []string    `json:"features"`
 	PoolName      string      `json:"pool_name"`
@@ -64,6 +77,31 @@ type RBDCreate struct {
 	StripeCount   interface{} `json:"stripe_count"`
 	DataPool      interface{} `json:"data_pool"`
 	Configuration struct{}    `json:"configuration"`
+}
+
+// RBDError implements error struct returned.
+type RBDError struct {
+	Detail    string `json:"detail"`
+	Code      string `json:"code"`
+	Component string `json:"component"`
+	Status    int    `json:"status"`
+	Task      struct {
+		Name     string `json:"name"`
+		Metadata struct {
+			PoolName  string      `json:"pool_name"`
+			Namespace interface{} `json:"namespace"`
+			ImageName string      `json:"image_name"`
+		} `json:"metadata"`
+	} `json:"task"`
+}
+
+// RBDUpdate implements struct send to ceph for rbd image updates on PUT /api/block/image/{image_spec}.
+// --> https://docs.ceph.com/en/latest/mgr/ceph_api/#put--api-block-image-image_spec
+type RBDUpdate struct {
+	Features      []string `json:"features"`
+	Name          string   `json:"name"`
+	Size          int64    `json:"size"`
+	Configuration struct{} `json:"configuration"`
 }
 
 // ListBlockImage gets a list of RBD block images (https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image)
@@ -126,8 +164,12 @@ func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int
 
 	counter++
 
-	var resp *resty.Response
+	var (
+		resp      *resty.Response
+		exception Exception
+	)
 
+	// create copy of client
 	client := *c.Session.Client
 
 	resp, err = client.
@@ -144,6 +186,16 @@ func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int
 	}
 
 	if !resp.IsSuccess() {
+		if resp.StatusCode() == http.StatusBadRequest {
+			err = client.JSONUnmarshal(resp.Body(), &exception)
+			if err == nil {
+				c.Logger.Debugf("err %s (%s)", exception.Code, exception.Detail)
+				if exception.Code == "17" {
+					return resp.StatusCode(), ErrEditImageAlreadyExists
+				}
+			}
+		}
+
 		return resp.StatusCode(), fmt.Errorf("could not create image: %v on pool %v: %v ", rbdCreate.Name, rbdCreate.PoolName, resp.Error())
 	}
 
@@ -151,7 +203,7 @@ func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int
 
 	// check task state
 	switch status {
-	case http.StatusCreated, http.StatusAccepted, http.StatusBadRequest:
+	case http.StatusCreated, http.StatusAccepted:
 		lookForTask := Task{
 			Name: "rbd/create",
 			MetaData: MetaData{
@@ -177,6 +229,94 @@ func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int
 	}
 
 	return status, nil
+}
+
+// UpdateBlockImage updates ceph rbd image (name, size etc al).
+// --> https://docs.ceph.com/en/latest/mgr/ceph_api/#put--api-block-image-image_spec
+func (c *Client) UpdateBlockImage(poolName string, nameSpace *string, imageName string, rbdUpdate RBDUpdate, counter uint) (status int, err error) {
+	if counter > c.MaxIterations {
+		return 0, ErrMaxIterationsExceeded
+	}
+
+	counter++
+
+	var (
+		resp      *resty.Response
+		imageSpec string
+		exception Exception
+	)
+
+	if poolName == "" {
+		return 0, ErrPoolNameIsEmpty
+	}
+
+	if imageName == "" {
+		return 0, ErrImageNameIsEmpty
+	}
+
+	// check rbdUpdate
+	if rbdUpdate.Name == "" {
+		return 0, ErrImageNameIsEmpty
+	}
+
+	// todo: check all rbdUpdate values for validity.
+
+	imageSpec = PathJoin(poolName, nameSpace, imageName)
+
+	client := *c.Session.Client
+
+	resp, err = client.
+		SetRetryCount(10).
+		SetRetryWaitTime(10 * time.Second).
+		AddRetryCondition(c.retryConditionCheckForAccepted).
+		R().
+		SetHeaders(defaultHeaderJson).
+		SetBody(rbdUpdate).
+		Put(c.Session.Server.getURL(fmt.Sprintf("block/image/%s", url.PathEscape(imageSpec))))
+
+	if !resp.IsSuccess() {
+		if resp.StatusCode() == http.StatusBadRequest {
+			err = client.JSONUnmarshal(resp.Body(), &exception)
+			if err == nil {
+				c.Logger.Debugf("err %s (%s)", exception.Code, exception.Detail)
+				if exception.Code == "17" {
+					return resp.StatusCode(), ErrCreateImageAlreadyExists
+				}
+			}
+		}
+
+		return resp.StatusCode(), fmt.Errorf("%v", resp.RawResponse)
+	}
+
+	status = resp.StatusCode()
+
+	switch status {
+	case http.StatusAccepted, http.StatusOK, http.StatusBadRequest:
+		lookForTask := Task{
+			Name: "rbd/edit",
+			MetaData: MetaData{
+				ImageSpec: imageSpec, // only ImageSpec is needed on delete
+			},
+		}
+
+		lookForTask, err = c.WaitForTaskIsDone(lookForTask)
+
+		if err != nil {
+			return 0, err
+		}
+
+		if !lookForTask.Success {
+			// try delete again...
+			c.Logger.Debugf("calling DeleteBlockImage with counter %d", counter)
+			return c.UpdateBlockImage(poolName, nameSpace, imageName, rbdUpdate, counter)
+		} else {
+			status = http.StatusOK
+			err = nil
+		}
+	}
+
+	return status, err
+
 }
 
 // DeleteBlockImage deletes an RBD image defined with imageSpec
@@ -248,7 +388,12 @@ func (c *Client) DeleteBlockImage(poolName string, nameSpace *string, imageName 
 
 func (c *Client) retryConditionCheckForAccepted(r *resty.Response, _ error) bool {
 	switch r.StatusCode() {
-	case http.StatusOK, http.StatusNoContent, http.StatusNotFound, http.StatusCreated, http.StatusAccepted:
+	case http.StatusOK,
+		http.StatusNoContent,
+		http.StatusNotFound,
+		http.StatusCreated,
+		http.StatusAccepted,
+		http.StatusBadRequest:
 		// no retry needed
 		c.Logger.Debugf("http status: %d --> no retry for %s", r.StatusCode(), r.Request.URL)
 		return false

@@ -5,6 +5,7 @@ import (
 	"github.com/chrisamti/ceph-rest-client/ceph"
 	"net/http"
 	"testing"
+	"time"
 )
 
 var (
@@ -163,6 +164,8 @@ func TestClient_ListBlockImage(t *testing.T) {
 		t.Errorf("expected http state 200 - got %d", status)
 	}
 
+	time.Sleep(10 * time.Second)
+
 	if len(block) == 0 {
 		t.Error("expected more than 0 block images")
 	}
@@ -187,6 +190,65 @@ func TestClient_ListBlockImage(t *testing.T) {
 		}
 	}
 
+}
+
+func TestClient_UpdateBlockImage(t *testing.T) {
+	client, err := ceph.New(getServer())
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	statusLogin, errLogin := client.Session.Login(username, password)
+	if errLogin != nil {
+		t.Error(errLogin)
+	}
+
+	if statusLogin != http.StatusCreated {
+		t.Fatalf("could not login - expected http state 201 - got %d", statusLogin)
+	}
+
+	rbd := ceph.RBDCreate{
+		Features:      nil,
+		PoolName:      "test-pool-1",
+		Namespace:     nil,
+		Name:          "rest-client-one-img-1",
+		Size:          1073741824,
+		ObjSize:       0,
+		StripeUnit:    nil,
+		StripeCount:   nil,
+		DataPool:      nil,
+		Configuration: struct{}{},
+	}
+
+	statusCreate, errCreate := client.CreateBlockImage(rbd, 0)
+
+	if errCreate != nil {
+		t.Error(errCreate)
+	}
+
+	if statusCreate != http.StatusCreated {
+		t.Errorf("expected http state 201 - got %d", statusCreate)
+	}
+
+	// modify
+
+	var rbdUpdate = ceph.RBDUpdate{
+		Features:      nil,
+		Name:          "rest-client-one-img-1",
+		Size:          int64(rbd.Size * 2),
+		Configuration: struct{}{},
+	}
+
+	statusModify, errModify := client.UpdateBlockImage("test-pool-1", nil, "rest-client-one-img-1", rbdUpdate, 0)
+
+	if errModify != nil {
+		t.Error(err)
+	}
+
+	if statusModify != http.StatusOK {
+		t.Errorf("expected http state 200 - got %d", statusCreate)
+	}
 }
 
 //func TestClient_GetBlockImage(t *testing.T) {

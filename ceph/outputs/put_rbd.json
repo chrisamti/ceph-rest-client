@@ -1,0 +1,12 @@
+{
+  "features": [
+    "deep-flatten",
+    "layering",
+    "exclusive-lock",
+    "object-map",
+    "fast-diff"
+  ],
+  "name": "test-1234",
+  "size": 16106127360,
+  "configuration": {}
+}

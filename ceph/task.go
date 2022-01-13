@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-// MetaData implements struct to receive task from type rbd delete or create.
+// MetaData implements struct to receive task from type rbd delete or create and is used in exceptions.
 type MetaData struct {
 	PoolName  string  `json:"pool_name"`
 	Namespace *string `json:"namespace"`
@@ -14,7 +14,7 @@ type MetaData struct {
 	ImageSpec string  `json:"image_spec"`
 }
 
-// Exception implements an exception.
+// Exception implements struct returned on http 400 responses.
 type Exception struct {
 	Detail    string `json:"detail"`
 	Code      string `json:"code"`

@@ -1,0 +1,14 @@
+{
+  "detail": "[errno 17] RBD image already exists (error creating image)",
+  "code": "17",
+  "component": "rbd",
+  "status": 400,
+  "task": {
+    "name": "rbd/create",
+    "metadata": {
+      "pool_name": "test-pool-1",
+      "namespace": null,
+      "image_name": "rest-client-one-img-1"
+    }
+  }
+}
