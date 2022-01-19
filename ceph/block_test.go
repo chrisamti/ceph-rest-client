@@ -212,7 +212,7 @@ func TestClient_UpdateBlockImage(t *testing.T) {
 		Features:      nil,
 		PoolName:      "test-pool-1",
 		Namespace:     nil,
-		Name:          "rest-client-one-img-1",
+		Name:          "rest-client-update-img-1",
 		Size:          1073741824,
 		ObjSize:       0,
 		StripeUnit:    nil,
@@ -235,12 +235,12 @@ func TestClient_UpdateBlockImage(t *testing.T) {
 
 	var rbdUpdate = ceph.RBDUpdate{
 		Features:      nil,
-		Name:          "rest-client-one-img-1",
+		Name:          "rest-client-update-img-1-modified",
 		Size:          int64(rbd.Size * 2),
 		Configuration: struct{}{},
 	}
 
-	statusModify, errModify := client.UpdateBlockImage("test-pool-1", nil, "rest-client-one-img-1", rbdUpdate, 0)
+	statusModify, errModify := client.UpdateBlockImage("test-pool-1", nil, "rest-client-update-img-1", rbdUpdate, 0)
 
 	if errModify != nil {
 		t.Error(err)
@@ -249,6 +249,17 @@ func TestClient_UpdateBlockImage(t *testing.T) {
 	if statusModify != http.StatusOK {
 		t.Errorf("expected http state 200 - got %d", statusCreate)
 	}
+
+	statusDelete, errDelete := client.DeleteBlockImage("test-pool-1", nil, "rest-client-update-img-1-modified", 0)
+
+	if errDelete != nil {
+		t.Errorf("expected http state 204 - got %d", statusDelete)
+	}
+
+	if statusDelete != http.StatusNoContent {
+		t.Errorf("expected http state 200 - got %d", statusCreate)
+	}
+
 }
 
 //func TestClient_GetBlockImage(t *testing.T) {

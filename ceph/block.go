@@ -25,6 +25,10 @@ var ErrCreateImageAlreadyExists = errors.New("RBD image already exists (error cr
 // ErrEditImageAlreadyExists is return if image to be renamed already exists.
 var ErrEditImageAlreadyExists = errors.New("RBD image already exists (error renaming image)")
 
+const (
+	RBDImageAlreadyExists = "17"
+)
+
 // RBD implements struct returned from GET /api/block/image/{image_spec}
 // --> https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image-image_spec.
 type RBD struct {
@@ -190,7 +194,7 @@ func (c *Client) CreateBlockImage(rbdCreate RBDCreate, counter uint) (status int
 			err = client.JSONUnmarshal(resp.Body(), &exception)
 			if err == nil {
 				c.Logger.Debugf("err %s (%s)", exception.Code, exception.Detail)
-				if exception.Code == "17" {
+				if exception.Code == RBDImageAlreadyExists {
 					return resp.StatusCode(), ErrEditImageAlreadyExists
 				}
 			}
