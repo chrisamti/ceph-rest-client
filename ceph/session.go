@@ -5,6 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-resty/resty/v2"
+	"net/http"
+	"net/url"
+	"strconv"
 )
 
 // see https://docs.ceph.com/en/pacific/mgr/ceph_api/index.html
@@ -103,7 +106,12 @@ func NewSession(server Server) (session *Session, err error) {
 		session.Client.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
 	}
 
-	return session, nil
+	// do not redirect
+	session.Client.SetRedirectPolicy(resty.NoRedirectPolicy())
+
+	err = session.CheckGetMgrAddress()
+
+	return session, err
 }
 
 // Login log in to ceph rest api (https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-auth)
@@ -138,6 +146,33 @@ func (s *Session) Login(username, password string) (status int, err error) {
 	}
 
 	return resp.StatusCode(), err
+}
+
+func (s *Session) CheckGetMgrAddress() error {
+	resp, err := s.Client.R().SetHeaders(defaultHeaders).Get(s.Server.getURL(""))
+
+	// log.Println(resp)
+	if resp.StatusCode() == http.StatusSeeOther {
+		locationURL := resp.Header().Get("Location")
+		if locationURL != "" {
+			urlParts, urlPartsErr := url.Parse(locationURL)
+			if urlPartsErr != nil {
+				return urlPartsErr
+			}
+			s.Server.Address = urlParts.Hostname()
+			var port int
+			port, err = strconv.Atoi(urlParts.Port())
+			if err != nil {
+				return err
+			}
+
+			s.Server.Port = uint(port)
+			s.Server.Protocol = urlParts.Scheme
+			return nil
+		}
+	}
+
+	return err
 }
 
 // Logout from ceph rest api.

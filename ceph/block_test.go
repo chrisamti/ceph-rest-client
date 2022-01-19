@@ -11,7 +11,7 @@ import (
 var (
 	username = "test-user"
 	password = "XJEGy5yWrYxu758"
-	server   = "192.168.21.31"
+	server   = "192.168.21.30"
 )
 
 func getServer() ceph.Server {
