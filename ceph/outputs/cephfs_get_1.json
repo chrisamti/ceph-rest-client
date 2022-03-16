@@ -1,0 +1,44 @@
+{
+  "cephfs": {
+    "id": 1,
+    "name": "cephfs",
+    "client_count": 2,
+    "ranks": [
+      {
+        "rank": 0,
+        "state": "active",
+        "mds": "nuc",
+        "activity": 0.0,
+        "dns": 4279,
+        "inos": 4265,
+        "dirs": 1141,
+        "caps": 10
+      }
+    ],
+    "pools": [
+      {
+        "pool": "cephfs_metadata",
+        "type": "metadata",
+        "used": 242536233,
+        "avail": 643755474944
+      },
+      {
+        "pool": "cephfs_data",
+        "type": "data",
+        "used": 17896314,
+        "avail": 643755474944
+      }
+    ]
+  },
+  "standbys": [
+    {
+      "name": "idea"
+    }
+  ],
+  "versions": {
+    "ceph version 16.2.7 (f9aa029788115b5df5eeee328f584156565ee5b7) pacific (stable)": [
+      "nuc",
+      "idea"
+    ]
+  }
+}

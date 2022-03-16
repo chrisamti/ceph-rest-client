@@ -1,0 +1,100 @@
+[
+  {
+    "mdsmap": {
+      "epoch": 674003,
+      "flags": 18,
+      "ever_allowed_features": 0,
+      "explicitly_allowed_features": 0,
+      "tableserver": 0,
+      "root": 0,
+      "session_timeout": 60,
+      "session_autoclose": 300,
+      "required_client_features": {},
+      "max_file_size": 1099511627776,
+      "last_failure": 0,
+      "last_failure_osd_epoch": 394,
+      "compat": {
+        "compat": {},
+        "ro_compat": {},
+        "incompat": {
+          "feature_1": "base v0.20",
+          "feature_2": "client writeable ranges",
+          "feature_3": "default file layouts on dirs",
+          "feature_4": "dir inode in separate object",
+          "feature_5": "mds uses versioned encoding",
+          "feature_6": "dirfrag is stored in omap",
+          "feature_7": "mds uses inline data",
+          "feature_8": "no anchor table",
+          "feature_9": "file layout v2",
+          "feature_10": "snaprealm v2"
+        }
+      },
+      "max_mds": 1,
+      "in": [
+        0
+      ],
+      "up": {
+        "mds_0": 5344105
+      },
+      "failed": [],
+      "damaged": [],
+      "stopped": [],
+      "info": {
+        "gid_5344105": {
+          "gid": 5344105,
+          "name": "nuc",
+          "rank": 0,
+          "incarnation": 141440,
+          "state_seq": 665750,
+          "addrs": {
+            "addrvec": [
+              {
+                "type": "v2",
+                "nonce": 2834094200,
+                "addr": "192.168.21.30:6800"
+              },
+              {
+                "type": "v1",
+                "nonce": 2834094200,
+                "addr": "192.168.21.30:6801"
+              }
+            ]
+          },
+          "join_fscid": -1,
+          "export_targets": [],
+          "features": 4540138297136906239,
+          "flags": 0,
+          "compat": {
+            "compat": {},
+            "ro_compat": {},
+            "incompat": {
+              "feature_1": "base v0.20",
+              "feature_2": "client writeable ranges",
+              "feature_3": "default file layouts on dirs",
+              "feature_4": "dir inode in separate object",
+              "feature_5": "mds uses versioned encoding",
+              "feature_6": "dirfrag is stored in omap",
+              "feature_7": "mds uses inline data",
+              "feature_8": "no anchor table",
+              "feature_9": "file layout v2",
+              "feature_10": "snaprealm v2"
+            }
+          },
+          "state": "up:active",
+          "addr": "192.168.21.30:6801/2834094200"
+        }
+      },
+      "data_pools": [
+        3
+      ],
+      "metadata_pool": 4,
+      "enabled": true,
+      "fs_name": "cephfs",
+      "balancer": "",
+      "standby_count_wanted": 1,
+      "created": "2022-01-09T16:29:34.142671+0100",
+      "modified": "2022-03-16T12:22:08.842940+0100"
+    },
+    "id": 1
+  }
+]
