@@ -1,0 +1,17 @@
+{
+  "features": [
+    "deep-flatten",
+    "layering",
+    "exclusive-lock",
+    "object-map",
+    "fast-diff"
+  ],
+  "dest_pool_name": "rbd",
+  "dest_namespace": null,
+  "dest_image_name": "copy-of-test2",
+  "obj_size": 4194304,
+  "stripe_unit": 4194304,
+  "stripe_count": 1,
+  "data_pool": null,
+  "configuration": {}
+}

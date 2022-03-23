@@ -1,0 +1,30 @@
+{
+  "features": [
+    "deep-flatten",
+    "layering",
+    "exclusive-lock",
+    "object-map",
+    "fast-diff"
+  ],
+  "dest_pool_name": "test-pool-1",
+  "dest_namespace": null,
+  "dest_image_name": "copy1",
+  "obj_size": 4194304,
+  "stripe_unit": 4194304,
+  "stripe_count": 1,
+  "data_pool": null,
+  "configuration": {
+    "rbd_qos_bps_limit": 0,
+    "rbd_qos_iops_limit": 100,
+    "rbd_qos_read_bps_limit": 0,
+    "rbd_qos_read_iops_limit": 0,
+    "rbd_qos_write_bps_limit": 0,
+    "rbd_qos_write_iops_limit": 0,
+    "rbd_qos_bps_burst": 0,
+    "rbd_qos_iops_burst": 0,
+    "rbd_qos_read_bps_burst": 0,
+    "rbd_qos_read_iops_burst": 0,
+    "rbd_qos_write_bps_burst": 0,
+    "rbd_qos_write_iops_burst": 0
+  }
+}

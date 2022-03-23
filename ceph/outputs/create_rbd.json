@@ -1,0 +1,31 @@
+{
+  "features": [
+    "deep-flatten",
+    "layering",
+    "exclusive-lock",
+    "object-map",
+    "fast-diff"
+  ],
+  "pool_name": "test-pool-2",
+  "namespace": null,
+  "name": "test-77",
+  "size": 10737418240,
+  "obj_size": 4194304,
+  "stripe_unit": 4194304,
+  "stripe_count": 2,
+  "data_pool": "rbd",
+  "configuration": {
+    "rbd_qos_bps_limit": 100,
+    "rbd_qos_iops_limit": 100,
+    "rbd_qos_read_bps_limit": 10,
+    "rbd_qos_read_iops_limit": 10,
+    "rbd_qos_write_bps_limit": 10,
+    "rbd_qos_write_iops_limit": 10,
+    "rbd_qos_bps_burst": 10,
+    "rbd_qos_iops_burst": 10,
+    "rbd_qos_read_bps_burst": 10,
+    "rbd_qos_read_iops_burst": 10,
+    "rbd_qos_write_bps_burst": 10,
+    "rbd_qos_write_iops_burst": 10
+  }
+}

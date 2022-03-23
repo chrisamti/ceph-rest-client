@@ -1,0 +1,416 @@
+{
+  "size": 1073741824,
+  "obj_size": 4194304,
+  "num_objs": 256,
+  "order": 22,
+  "block_name_prefix": "rbd_data.9ac9ee4ad6889e",
+  "name": "rest-client-src-img-1",
+  "unique_id": "test-pool-1/9ac9ee4ad6889e",
+  "id": "9ac9ee4ad6889e",
+  "image_format": 2,
+  "pool_name": "test-pool-1",
+  "namespace": null,
+  "features": 61,
+  "features_name": [
+    "deep-flatten",
+    "exclusive-lock",
+    "fast-diff",
+    "layering",
+    "object-map"
+  ],
+  "timestamp": "2022-03-20T09:19:15Z",
+  "stripe_count": 1,
+  "stripe_unit": 4194304,
+  "data_pool": null,
+  "parent": null,
+  "snapshots": [],
+  "total_disk_usage": 0,
+  "disk_usage": 0,
+  "configuration": [
+    {
+      "name": "rbd_atime_update_interval",
+      "value": "60",
+      "source": 0
+    },
+    {
+      "name": "rbd_balance_parent_reads",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_balance_snap_reads",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_blkin_trace_all",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_blocklist_expire_seconds",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_blocklist_on_break_lock",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_block_writes_upfront",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_max_dirty",
+      "value": "25165824",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_max_dirty_age",
+      "value": "1.000000",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_max_dirty_object",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_policy",
+      "value": "writearound",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_size",
+      "value": "33554432",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_target_dirty",
+      "value": "16777216",
+      "source": 0
+    },
+    {
+      "name": "rbd_cache_writethrough_until_flush",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_clone_copy_on_read",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_compression_hint",
+      "value": "none",
+      "source": 0
+    },
+    {
+      "name": "rbd_concurrent_management_ops",
+      "value": "10",
+      "source": 0
+    },
+    {
+      "name": "rbd_default_snapshot_quiesce_mode",
+      "value": "required",
+      "source": 0
+    },
+    {
+      "name": "rbd_disable_zero_copy_writes",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_discard_granularity_bytes",
+      "value": "65536",
+      "source": 0
+    },
+    {
+      "name": "rbd_enable_alloc_hint",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_invalidate_object_map_on_timeout",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_io_scheduler",
+      "value": "simple",
+      "source": 0
+    },
+    {
+      "name": "rbd_io_scheduler_simple_max_delay",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_commit_age",
+      "value": "5.000000",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_max_concurrent_object_sets",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_max_payload_bytes",
+      "value": "16384",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_object_flush_age",
+      "value": "0.000000",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_object_flush_bytes",
+      "value": "1048576",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_object_flush_interval",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_object_max_in_flight_appends",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_journal_object_writethrough_until_flush",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_localize_parent_reads",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_localize_snap_reads",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_mirroring_delete_delay",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_mirroring_max_mirroring_snapshots",
+      "value": "3",
+      "source": 0
+    },
+    {
+      "name": "rbd_mirroring_replay_delay",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_mirroring_resync_after_disconnect",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_move_parent_to_trash_on_remove",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_move_to_trash_on_remove",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_move_to_trash_on_remove_expire_seconds",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_mtime_update_interval",
+      "value": "60",
+      "source": 0
+    },
+    {
+      "name": "rbd_non_blocking_aio",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_parent_cache_enabled",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_persistent_cache_log_periodic_stats",
+      "value": "false",
+      "source": 0
+    },
+    {
+      "name": "rbd_persistent_cache_mode",
+      "value": "disabled",
+      "source": 0
+    },
+    {
+      "name": "rbd_persistent_cache_path",
+      "value": "/tmp",
+      "source": 0
+    },
+    {
+      "name": "rbd_persistent_cache_size",
+      "value": "1073741824",
+      "source": 0
+    },
+    {
+      "name": "rbd_plugins",
+      "value": "",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_bps_burst",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_bps_burst_seconds",
+      "value": "1",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_bps_limit",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_iops_burst",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_iops_burst_seconds",
+      "value": "1",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_iops_limit",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_read_bps_burst",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_read_bps_burst_seconds",
+      "value": "1",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_read_bps_limit",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_read_iops_burst",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_read_iops_burst_seconds",
+      "value": "1",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_read_iops_limit",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_schedule_tick_min",
+      "value": "50",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_write_bps_burst",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_write_bps_burst_seconds",
+      "value": "1",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_write_bps_limit",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_write_iops_burst",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_write_iops_burst_seconds",
+      "value": "1",
+      "source": 0
+    },
+    {
+      "name": "rbd_qos_write_iops_limit",
+      "value": "0",
+      "source": 0
+    },
+    {
+      "name": "rbd_quiesce_notification_attempts",
+      "value": "10",
+      "source": 0
+    },
+    {
+      "name": "rbd_read_from_replica_policy",
+      "value": "default",
+      "source": 0
+    },
+    {
+      "name": "rbd_readahead_disable_after_bytes",
+      "value": "52428800",
+      "source": 0
+    },
+    {
+      "name": "rbd_readahead_max_bytes",
+      "value": "524288",
+      "source": 0
+    },
+    {
+      "name": "rbd_readahead_trigger_requests",
+      "value": "10",
+      "source": 0
+    },
+    {
+      "name": "rbd_request_timed_out_seconds",
+      "value": "30",
+      "source": 0
+    },
+    {
+      "name": "rbd_skip_partial_discard",
+      "value": "true",
+      "source": 0
+    },
+    {
+      "name": "rbd_sparse_read_threshold_bytes",
+      "value": "65536",
+      "source": 0
+    }
+  ]
+}

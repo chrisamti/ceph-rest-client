@@ -62,7 +62,13 @@ type Directory struct {
     Quotas    Quota         `json:"quotas"`
 }
 
-// ListFS gets all possible ceph fs available (https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs).
+type SnapShot struct {
+    Name string `json:"name"`
+    Path string `json:"path"`
+}
+
+// ListFS gets all possible ceph fs available.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs.
 func (c *Client) ListFS() (status int, list []FS, err error) {
     var resp *resty.Response
 
@@ -80,7 +86,8 @@ func (c *Client) ListFS() (status int, list []FS, err error) {
     return resp.StatusCode(), list, err
 }
 
-// GetFS gets a specific ceph fs by id (https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs).
+// GetFS gets a specific ceph fs by id.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs.
 func (c *Client) GetFS(id int) (status int, fs interface{}, err error) {
 
     var resp *resty.Response
@@ -98,7 +105,8 @@ func (c *Client) GetFS(id int) (status int, fs interface{}, err error) {
     return resp.StatusCode(), nil, err
 }
 
-// GetRootDirectory gets the ceph fs root directory (https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-get_root_directory).
+// GetRootDirectory gets the ceph fs root directory.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-get_root_directory.
 func (c *Client) GetRootDirectory(id int) (status int, rootDir Directory, err error) {
     var resp *resty.Response
 
@@ -116,7 +124,8 @@ func (c *Client) GetRootDirectory(id int) (status int, rootDir Directory, err er
     return resp.StatusCode(), rootDir, err
 }
 
-// ListDir gets a list if ceph fs directories (https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-ls_dir).
+// ListDir gets a list if ceph fs directories.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-ls_dir.
 func (c *Client) ListDir(id int, path string, depth uint) (status int, dir []Directory, err error) {
     var resp *resty.Response
 
@@ -136,7 +145,8 @@ func (c *Client) ListDir(id int, path string, depth uint) (status int, dir []Dir
     return resp.StatusCode(), dir, err
 }
 
-// CreateDir creates a ceph fs directory (https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-cephfs-fs_id-tree)
+// CreateDir creates a ceph fs directory.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-cephfs-fs_id-tree.
 func (c *Client) CreateDir(id int, path string) (status int, err error) {
     var resp *resty.Response
 
@@ -158,7 +168,8 @@ func (c *Client) CreateDir(id int, path string) (status int, err error) {
     return resp.StatusCode(), err
 }
 
-// DeleteDir remove a directory from ceph fs (https://docs.ceph.com/en/latest/mgr/ceph_api/#delete--api-cephfs-fs_id-tree).
+// DeleteDir remove a directory from ceph fs.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#delete--api-cephfs-fs_id-tree.
 func (c *Client) DeleteDir(id int, path string) (status int, err error) {
     var resp *resty.Response
 
@@ -176,8 +187,9 @@ func (c *Client) DeleteDir(id int, path string) (status int, err error) {
     return resp.StatusCode(), err
 }
 
-// GetQuota gets ceph fs quota for given path (https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-quota).
-func (c *Client) GetQuota(id int, path string) (status int, quotas Quota, err error) {
+// GetQuota gets ceph fs quota for given path.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-quota.
+func (c *Client) GetQuota(id int64, path string) (status int, quotas Quota, err error) {
     var resp *resty.Response
 
     client := *c.Session.Client
@@ -195,7 +207,8 @@ func (c *Client) GetQuota(id int, path string) (status int, quotas Quota, err er
     return resp.StatusCode(), quotas, err
 }
 
-// SetQuota sets ceph fs quota defined by path (https://docs.ceph.com/en/latest/mgr/ceph_api/#put--api-cephfs-fs_id-quota).
+// SetQuota sets ceph fs quota defined by path.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#put--api-cephfs-fs_id-quota.
 func (c *Client) SetQuota(id int, quota Quota) (status int, err error) {
     var resp *resty.Response
 
@@ -205,6 +218,46 @@ func (c *Client) SetQuota(id int, quota Quota) (status int, err error) {
         SetHeaders(defaultHeaders).
         SetBody(quota).
         Put(c.Session.Server.getURL(fmt.Sprintf("cephfs/%d/quota", id)))
+
+    if !resp.IsSuccess() {
+        return resp.StatusCode(), fmt.Errorf("%v", resp.RawResponse)
+    }
+
+    return resp.StatusCode(), err
+}
+
+// CreateSnapShot creates a ceph fs snapshot defined in the SnapShot struct.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-cephfs-fs_id-snapshot.
+func (c *Client) CreateSnapShot(id int, snap SnapShot) (status int, err error) {
+    var resp *resty.Response
+
+    client := *c.Session.Client
+
+    resp, err = client.R().
+        SetHeaders(defaultHeaders).
+        SetBody(snap).
+        Post(c.Session.Server.getURL(fmt.Sprintf("cephfs/%d/snapshot", id)))
+
+    if !resp.IsSuccess() {
+        return resp.StatusCode(), fmt.Errorf("%v", resp.RawResponse)
+    }
+
+    return resp.StatusCode(), err
+
+}
+
+// DeleteSnapShot creates a ceph fs snapshot defined in the SnapShot struct.
+// See https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-cephfs-fs_id-snapshot.
+func (c *Client) DeleteSnapShot(id int, snap SnapShot) (status int, err error) {
+    var resp *resty.Response
+
+    client := *c.Session.Client
+
+    resp, err = client.R().
+        SetHeaders(defaultHeaders).
+        SetQueryParam("name", snap.Name).
+        SetQueryParam("path", snap.Path).
+        Delete(c.Session.Server.getURL(fmt.Sprintf("cephfs/%d/snapshot", id)))
 
     if !resp.IsSuccess() {
         return resp.StatusCode(), fmt.Errorf("%v", resp.RawResponse)
