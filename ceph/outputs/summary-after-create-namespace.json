@@ -1,0 +1,520 @@
+{
+  "health_status": "HEALTH_WARN",
+  "mgr_id": "idea",
+  "mgr_host": "https://192.168.21.31:8443/",
+  "have_mon_connection": true,
+  "executing_tasks": [],
+  "finished_tasks": [
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": "Alpha",
+        "image_name": "test-77"
+      },
+      "begin_time": "2022-03-23T13:37:58.551333Z",
+      "end_time": "2022-03-23T13:37:58.577205Z",
+      "duration": 0.025871753692626953,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/trash/move",
+      "metadata": {
+        "image_spec": "test-pool-1/move-to-trash-2022-03-23T13:20:31+01:00"
+      },
+      "begin_time": "2022-03-23T13:20:31.548852Z",
+      "end_time": "2022-03-23T13:20:31.593249Z",
+      "duration": 0.044397592544555664,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "move-to-trash-2022-03-23T13:20:31+01:00"
+      },
+      "begin_time": "2022-03-23T13:20:31.387345Z",
+      "end_time": "2022-03-23T13:20:31.509858Z",
+      "duration": 0.1225130558013916,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-copy-img-1"
+      },
+      "begin_time": "2022-03-23T13:20:30.295063Z",
+      "end_time": "2022-03-23T13:20:30.585540Z",
+      "duration": 0.29047679901123047,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-src-img-1"
+      },
+      "begin_time": "2022-03-23T13:20:29.958753Z",
+      "end_time": "2022-03-23T13:20:30.184249Z",
+      "duration": 0.2254955768585205,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/copy",
+      "metadata": {
+        "src_image_spec": "test-pool-1/rest-client-src-img-1",
+        "dest_pool_name": "test-pool-1",
+        "dest_namespace": null,
+        "dest_image_name": "rest-client-copy-img-1"
+      },
+      "begin_time": "2022-03-23T13:20:28.350823Z",
+      "end_time": "2022-03-23T13:20:29.949788Z",
+      "duration": 1.5989644527435303,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-src-img-1"
+      },
+      "begin_time": "2022-03-23T13:20:28.156454Z",
+      "end_time": "2022-03-23T13:20:28.253486Z",
+      "duration": 0.09703207015991211,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/delete",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-update-img-1-modified"
+      },
+      "begin_time": "2022-03-23T13:20:27.126503Z",
+      "end_time": "2022-03-23T13:20:27.390826Z",
+      "duration": 0.26432299613952637,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/edit",
+      "metadata": {
+        "image_spec": "test-pool-1/rest-client-update-img-1",
+        "name": "rest-client-update-img-1-modified"
+      },
+      "begin_time": "2022-03-23T13:20:26.988671Z",
+      "end_time": "2022-03-23T13:20:27.090026Z",
+      "duration": 0.10135483741760254,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/create",
+      "metadata": {
+        "pool_name": "test-pool-1",
+        "namespace": null,
+        "image_name": "rest-client-update-img-1"
+      },
+      "begin_time": "2022-03-23T13:20:26.924196Z",
+      "end_time": "2022-03-23T13:20:26.952417Z",
+      "duration": 0.02822136878967285,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 24 PGs from 1 to 32",
+      "metadata": {
+        "pool": 24
+      },
+      "begin_time": "2022-03-19T15:28:33.552194Z",
+      "end_time": "2022-03-19T15:29:33.561832Z",
+      "duration": 60.00963878631592,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-03-19T15:28:36.310220Z",
+      "end_time": "2022-03-19T15:28:46.347841Z",
+      "duration": 10.03762149810791,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 23 PGs from 1 to 32",
+      "metadata": {
+        "pool": 23
+      },
+      "begin_time": "2022-03-19T15:18:32.421946Z",
+      "end_time": "2022-03-19T15:19:32.431829Z",
+      "duration": 60.0098831653595,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 22 PGs from 1 to 32",
+      "metadata": {
+        "pool": 22
+      },
+      "begin_time": "2022-03-19T15:17:32.038898Z",
+      "end_time": "2022-03-19T15:18:32.423925Z",
+      "duration": 60.385026931762695,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-03-19T14:43:15.742355Z",
+      "end_time": "2022-03-19T15:17:45.459817Z",
+      "duration": 2069.7174623012543,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 21 PGs from 1 to 32",
+      "metadata": {
+        "pool": 21
+      },
+      "begin_time": "2022-03-19T15:13:31.023299Z",
+      "end_time": "2022-03-19T15:15:31.040340Z",
+      "duration": 120.01704168319702,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 20 PGs from 1 to 32",
+      "metadata": {
+        "pool": 20
+      },
+      "begin_time": "2022-03-19T15:05:29.579695Z",
+      "end_time": "2022-03-19T15:12:30.262682Z",
+      "duration": 420.68298745155334,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler decreasing pool 16 PGs from 128 to 32",
+      "metadata": {
+        "pool": 16
+      },
+      "begin_time": "2022-03-19T14:47:28.369114Z",
+      "end_time": "2022-03-19T14:57:29.024803Z",
+      "duration": 600.6556885242462,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler decreasing pool 15 PGs from 128 to 32",
+      "metadata": {
+        "pool": 15
+      },
+      "begin_time": "2022-03-19T14:43:27.425669Z",
+      "end_time": "2022-03-19T14:45:27.437329Z",
+      "duration": 120.01166009902954,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler decreasing pool 14 PGs from 128 to 32",
+      "metadata": {
+        "pool": 14
+      },
+      "begin_time": "2022-03-19T14:37:25.292886Z",
+      "end_time": "2022-03-19T14:43:27.427358Z",
+      "duration": 362.1344726085663,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-03-19T14:37:29.608324Z",
+      "end_time": "2022-03-19T14:42:50.627068Z",
+      "duration": 321.0187442302704,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Rebalancing after osd.2 marked out",
+      "metadata": {
+        "osd": 2
+      },
+      "begin_time": "2022-03-08T16:25:48.334392Z",
+      "end_time": "2022-03-19T14:15:23.915100Z",
+      "duration": 942575.5807073116,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/trash/remove",
+      "metadata": {
+        "image_id_spec": "usb/3e7f2df48fba72"
+      },
+      "begin_time": "2022-03-08T12:11:19.788734Z",
+      "end_time": "2022-03-19T14:15:23.915096Z",
+      "duration": 957844.1263616085,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/trash/remove",
+      "metadata": {
+        "image_id_spec": "usb/3dc465792bcebe"
+      },
+      "begin_time": "2022-02-13T17:08:47.661553Z",
+      "end_time": "2022-03-19T14:15:23.915091Z",
+      "duration": 2927196.2535378933,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/trash/remove",
+      "metadata": {
+        "image_id_spec": "usb/3dc4659a3fca0f"
+      },
+      "begin_time": "2022-02-13T17:08:47.661550Z",
+      "end_time": "2022-03-19T14:15:23.915087Z",
+      "duration": 2927196.253537655,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/trash/remove",
+      "metadata": {
+        "image_id_spec": "usb/3dc465d68f7c85"
+      },
+      "begin_time": "2022-02-13T17:08:47.661546Z",
+      "end_time": "2022-03-19T14:15:23.915083Z",
+      "duration": 2927196.2535369396,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "rbd/trash/remove",
+      "metadata": {
+        "image_id_spec": "usb/3cf881e3d6b9b7"
+      },
+      "begin_time": "2022-02-13T17:08:47.661542Z",
+      "end_time": "2022-03-19T14:15:23.915078Z",
+      "duration": 2927196.2535362244,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 13 PGs from 1 to 32",
+      "metadata": {
+        "pool": 13
+      },
+      "begin_time": "2022-02-13T17:08:47.661538Z",
+      "end_time": "2022-03-19T14:15:23.915074Z",
+      "duration": 2927196.253535986,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-02-13T17:08:47.661534Z",
+      "end_time": "2022-03-19T14:15:23.915068Z",
+      "duration": 2927196.253534794,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-02-13T17:08:47.661529Z",
+      "end_time": "2022-03-19T14:15:23.915060Z",
+      "duration": 2927196.253530979,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 12 PGs from 1 to 32",
+      "metadata": {
+        "pool": 12
+      },
+      "begin_time": "2022-02-13T17:08:47.661525Z",
+      "end_time": "2022-03-19T14:15:23.915056Z",
+      "duration": 2927196.2535307407,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-02-13T17:08:47.661521Z",
+      "end_time": "2022-03-19T14:15:23.915051Z",
+      "duration": 2927196.2535305023,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 11 PGs from 1 to 32",
+      "metadata": {
+        "pool": 11
+      },
+      "begin_time": "2022-02-13T17:08:47.661516Z",
+      "end_time": "2022-03-19T14:15:23.915047Z",
+      "duration": 2927196.253530979,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-02-13T17:08:47.661512Z",
+      "end_time": "2022-03-19T14:15:23.915043Z",
+      "duration": 2927196.2535305023,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 10 PGs from 1 to 32",
+      "metadata": {
+        "pool": 10
+      },
+      "begin_time": "2022-02-13T17:08:47.661508Z",
+      "end_time": "2022-03-19T14:15:23.915038Z",
+      "duration": 2927196.253530264,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-02-13T17:08:47.661504Z",
+      "end_time": "2022-03-19T14:15:23.915034Z",
+      "duration": 2927196.253529787,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/Global Recovery Event",
+      "metadata": {
+        "global": ""
+      },
+      "begin_time": "2022-02-13T17:08:47.661499Z",
+      "end_time": "2022-03-19T14:15:23.915029Z",
+      "duration": 2927196.253529787,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    },
+    {
+      "name": "progress/PG autoscaler increasing pool 9 PGs from 1 to 32",
+      "metadata": {
+        "pool": 9
+      },
+      "begin_time": "2022-02-13T17:08:47.661490Z",
+      "end_time": "2022-03-19T14:15:23.915020Z",
+      "duration": 2927196.2535295486,
+      "progress": 100,
+      "success": true,
+      "ret_value": null,
+      "exception": null
+    }
+  ],
+  "version": "ceph version 16.2.7 (f9aa029788115b5df5eeee328f584156565ee5b7) pacific (stable)",
+  "rbd_mirroring": {
+    "warnings": 0,
+    "errors": 0
+  }
+}

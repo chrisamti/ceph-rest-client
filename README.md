@@ -7,13 +7,17 @@ See https://docs.ceph.com/en/latest/mgr/ceph_api/#specification.
 Not all endpoints are implemented. 
 Still under development. 
 
-Implemented ceph rest endpoints: 
+This package was tested with: 
 
-## AUTH
+- *ceph version 16.2.7 (f9aa029788115b5df5eeee328f584156565ee5b7) pacific (stable), Proxmox 7.1-10* 
+
+## Implemented ceph rest endpoints: 
+
+### AUTH
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-auth
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-auth-logout
 
-## CEPHFS
+### CEPHFS
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-cephfs-fs_id-get_root_directory
@@ -24,7 +28,7 @@ Implemented ceph rest endpoints:
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-cephfs-fs_id-snapshot
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#delete--api-cephfs-fs_id-tree
 
-## RBD
+### RBD
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#get--api-block-image
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#post--api-block-image
 - https://docs.ceph.com/en/latest/mgr/ceph_api/#delete--api-block-image-image_spec
